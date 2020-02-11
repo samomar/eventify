@@ -1,0 +1,3 @@
+# Eventify
+
+Event management API
