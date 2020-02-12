@@ -1,6 +1,7 @@
 const graphql = require("graphql");
-const Event = require("../models/event");
 const Organization = require("../models/organization");
+const Location = require("../models/location");
+const Event = require("../models/event");
 const {
   GraphQLObjectType,
   GraphQLString,
@@ -24,12 +25,11 @@ const OrganizationType = new GraphQLObjectType({
         });
       }
     }
-    // updatedAt: { type: GraphQLString },
   })
 });
 
-const EventType = new GraphQLObjectType({
-  name: "Event",
+const LocationType = new GraphQLObjectType({
+  name: "Location",
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
@@ -38,12 +38,36 @@ const EventType = new GraphQLObjectType({
       resolve(parent, args) {
         return Organization.findById(parent.organizationId);
       }
+    },
+    events: {
+      type: new GraphQLList(EventType),
+      resolve(parent, args) {
+        return Event.find({
+          organizationId: parent.id
+        });
+      }
     }
-    // createdAt: { type: GraphQLString },
-    // updatedAt: { type: GraphQLString },
-    // location: { type: GraphQLString },
-    // description: { type: GraphQLString },
-    // organization: { type: GraphQLString }
+  })
+});
+
+const EventType = new GraphQLObjectType({
+  name: "Event",
+  fields: () => ({
+    id: { type: GraphQLID },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    organization: {
+      type: OrganizationType,
+      resolve(parent, args) {
+        return Organization.findById(parent.organizationId);
+      }
+    },
+    location: {
+      type: LocationType,
+      resolve(parent, args) {
+        return Location.findById(parent.locationId);
+      }
+    }
   })
 });
 
@@ -61,6 +85,19 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(OrganizationType),
       resolve(parent, args) {
         return Organization.find({});
+      }
+    },
+    location: {
+      type: LocationType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return Location.findById(args.id);
+      }
+    },
+    locations: {
+      type: new GraphQLList(LocationType),
+      resolve(parent, args) {
+        return Location.find({});
       }
     },
     event: {
@@ -95,17 +132,31 @@ const Mutation = new GraphQLObjectType({
         return organization.save();
       }
     },
+    addLocation: {
+      type: LocationType,
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        organizationId: { type: new GraphQLNonNull(GraphQLID) },
+        eventId: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        let location = new Location({
+          name: args.name,
+          organizationId: args.organizationId
+        });
+        return location.save();
+      }
+    },
     addEvent: {
       type: EventType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
-        organizationId: { type: new GraphQLNonNull(GraphQLID) }
+        organizationId: { type: new GraphQLNonNull(GraphQLID) },
+        locationId: { type: new GraphQLNonNull(GraphQLID) }
       },
       resolve(parent, args) {
-        let event = new Event({
-          name: args.name,
-          organizationId: args.organizationId
-        });
+        let { name, organizationId, locationId } = args;
+        let event = new Event({ name, organizationId, locationId });
         return event.save();
       }
     },

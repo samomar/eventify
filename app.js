@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-mongoose.connect("", { useNewUrlParser: true, useUnifiedTopology: true });
+const remoteDB = "";
+mongoose.connect(remoteDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once("open", () => {
   console.log("Connected to database");
