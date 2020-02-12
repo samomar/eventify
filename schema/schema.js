@@ -17,6 +17,14 @@ const OrganizationType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     createdAt: { type: GraphQLString },
+    locations: {
+      type: new GraphQLList(LocationType),
+      resolve(parent, args) {
+        return Location.find({
+          organizationId: parent.id
+        });
+      }
+    },
     events: {
       type: new GraphQLList(EventType),
       resolve(parent, args) {
@@ -43,7 +51,7 @@ const LocationType = new GraphQLObjectType({
       type: new GraphQLList(EventType),
       resolve(parent, args) {
         return Event.find({
-          organizationId: parent.id
+          locationId: parent.id
         });
       }
     }
