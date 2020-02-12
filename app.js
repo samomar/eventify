@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-mongoose.connect("", { useNewUrlParser: true });
+mongoose.connect("", { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once("open", () => {
-  console.log("connected to database");
+  console.log("Connected to database");
 });
 
 app.use(
