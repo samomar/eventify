@@ -140,6 +140,28 @@ const Mutation = new GraphQLObjectType({
         return organization.save();
       }
     },
+    updateOrganization: {
+      type: OrganizationType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return Organization.findByIdAndUpdate(args.id, args, { new: true });
+      }
+    },
+    deleteOrganization: {
+      type: OrganizationType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Organization.findByIdAndDelete(args.id);
+      }
+    },
+
+    // Locations
+
     addLocation: {
       type: LocationType,
       args: {
@@ -155,6 +177,29 @@ const Mutation = new GraphQLObjectType({
         return location.save();
       }
     },
+    updateLocation: {
+      type: LocationType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        name: { type: GraphQLString },
+        organizationId: { type: GraphQLID }
+      },
+      resolve(parent, args) {
+        return Location.findByIdAndUpdate(args.id, args, { new: true });
+      }
+    },
+    deleteLocation: {
+      type: LocationType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Location.findByIdAndDelete(args.id);
+      }
+    },
+
+    // Events
+
     addEvent: {
       type: EventType,
       args: {
@@ -168,15 +213,6 @@ const Mutation = new GraphQLObjectType({
         return event.save();
       }
     },
-    deleteEvent: {
-      type: EventType,
-      args: {
-        id: { type: new GraphQLNonNull(GraphQLID) }
-      },
-      resolve(parent, args) {
-        return Event.findByIdAndDelete(args.id);
-      }
-    },
     updateEvent: {
       type: EventType,
       args: {
@@ -186,6 +222,15 @@ const Mutation = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return Event.findByIdAndUpdate(args.id, args, { new: true });
+      }
+    },
+    deleteEvent: {
+      type: EventType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) }
+      },
+      resolve(parent, args) {
+        return Event.findByIdAndDelete(args.id);
       }
     }
   }
