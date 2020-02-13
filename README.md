@@ -5,7 +5,7 @@ Built with Node.JS, Express, GraphQL and Mongoose wrapper for MongoDB to persist
 
 
 ## Quick Start
-- Clone the repository and run `npm install --ignore-scripts`
+- Clone the repository navigate to the root directory and run `npm install --ignore-scripts` and then `npm run dev`
 - Add in your `googleAPIKey` to `/graphql/mutation.js` or use the one included in the email.
 - Visit `http://localhost:4000/graphql`.
 - Copy the generated queries from `queries.graphql` located in the root directory to the GraphiQL UI query section.
