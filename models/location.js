@@ -7,8 +7,8 @@ const locationSchema = new Schema(
     address: String,
     latitude: String,
     longitude: String,
-    organizationId: String,
-    eventId: String
+    organizationId: String
+    // eventId: String
   },
   { timestamps: true }
 );

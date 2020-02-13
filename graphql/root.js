@@ -2,14 +2,7 @@ const graphql = require("graphql");
 const Organization = require("../models/organization");
 const Location = require("../models/location");
 const Event = require("../models/event");
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLSchema,
-  GraphQLID,
-  GraphQLList,
-  GraphQLNonNull
-} = graphql;
+const { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } = graphql;
 const { OrganizationType, LocationType, EventType } = require("./schema");
 const { Mutation } = require("./mutation");
 

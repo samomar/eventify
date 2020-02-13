@@ -1,5 +1,29 @@
 const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull } = graphql;
+const Organization = require("../models/organization");
+const Location = require("../models/location");
+const Event = require("../models/event");
+const fetch = require("node-fetch");
+
+const googleAPIKey = "";
+
+async function getCoordinates(address) {
+  function stop(msg) {
+    console.log(msg);
+    return [0, 0];
+  }
+
+  !googleAPIKey && stop("No Google API key found.");
+
+  const googleMapsURL = `https://maps.googleapis.com/maps/api/geocode/json?key=${googleAPIKey}&address=${address}`;
+  const response = await fetch(googleMapsURL);
+  const data = await response.json();
+
+  !data.status == "OK" && stop("Unable to fetch address coordinates.");
+
+  const { lat, lng } = data.results[0].geometry.location;
+  return [lat, lng];
+}
 
 module.exports.Mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -43,13 +67,19 @@ module.exports.Mutation = new GraphQLObjectType({
       type: LocationType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
+        address: { type: new GraphQLNonNull(GraphQLString) },
         organizationId: { type: new GraphQLNonNull(GraphQLID) },
-        eventId: { type: GraphQLString }
+        latitude: { type: GraphQLString },
+        longitude: { type: GraphQLString }
+        // eventId: { type: GraphQLString }
       },
-      resolve(parent, args) {
+      async resolve(parent, args) {
+        const [lat, lng] = await getCoordinates(args.address);
         let location = new Location({
           name: args.name,
-          organizationId: args.organizationId
+          organizationId: args.organizationId,
+          latitude: lat,
+          longitude: lng
         });
         return location.save();
       }

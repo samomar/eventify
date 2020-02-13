@@ -31,6 +31,9 @@ LocationType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
+    address: { type: GraphQLString },
+    latitude: { type: GraphQLString },
+    longitude: { type: GraphQLString },
     organization: {
       type: OrganizationType,
       resolve(parent, args) {
