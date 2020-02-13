@@ -11,6 +11,11 @@ Built with Node.JS, Express, GraphQL and Mongoose wrapper for MongoDB to persist
 - To automatically fetch location coordinates:
   - Add in your `googleAPIKey` to `/graphql/mutation.js`
   - Or use the one included in the email.
+- The database is hosted on a mongodb.com server, if the one included in app.js failed to connect please do the following:
+  - Create an account on mongodb.com.
+  - Create a cluster/database.
+  - Whitelist your IP or choose "Whitelist All IPs" to be able to connect.
+  - Visit the "Connect" section and generate a new `remoteDB` string and paste it in `app.js`
 - Visit `http://localhost:4000/graphql`.
   - Copy the generated queries from `queries.graphql` located in the root directory to the GraphiQL UI query section.
   - Another file is called `queryVariables.graphql` contains Query Variables for the bottom left section of the GraphiQL UI.
