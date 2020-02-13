@@ -13,6 +13,6 @@ Built with Node.JS, Express, GraphQL and Mongoose wrapper for MongoDB to persist
 - `queries.graphql`and `queryVariables.graphql` were generated to save time constructing queries.
 - The queries are named and can be selected individually by clicking the run button.
   - Run the first query to obtain `organizationID`, then add it to the Query Variables section at the bottom left.
-  - An organizationID is required to create a location.
-  - A locationID is required to create an event.
+  - An `organizationID` is required to create a location.
+  - A `locationID` is required to create an event.
  - After executing the first 3 queries, and obtaining `organzationID`, `locationID` and `eventID`, no further input is needed.
