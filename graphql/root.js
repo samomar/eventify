@@ -9,7 +9,7 @@ const { Mutation } = require("./mutation");
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    getOrganization: {
+    organization: {
       type: OrganizationType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
@@ -22,7 +22,7 @@ const RootQuery = new GraphQLObjectType({
         return Organization.find({});
       }
     },
-    getLocation: {
+    location: {
       type: LocationType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
@@ -35,7 +35,7 @@ const RootQuery = new GraphQLObjectType({
         return Location.find({});
       }
     },
-    getEvent: {
+    event: {
       type: EventType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {

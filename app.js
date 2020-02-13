@@ -8,6 +8,7 @@ const app = express();
 const remoteDB =
   "mongodb+srv://sam:verysecurepassword@eventify-d2v7c.mongodb.net/test?retryWrites=true&w=majority";
 
+mongoose.set("useFindAndModify", false);
 mongoose.connect(remoteDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once("open", () => {

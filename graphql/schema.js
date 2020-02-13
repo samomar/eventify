@@ -1,5 +1,8 @@
 const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const Organization = require("../models/organization");
+const Location = require("../models/location");
+const Event = require("../models/event");
 
 OrganizationType = new GraphQLObjectType({
   name: "Organization",
@@ -72,8 +75,4 @@ EventType = new GraphQLObjectType({
   })
 });
 
-module.exports = {
-  OrganizationType,
-  LocationType,
-  EventType
-};
+module.exports = { OrganizationType, LocationType, EventType };

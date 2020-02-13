@@ -1,0 +1,103 @@
+mutation addOrganization {
+  addOrganization(name: "Econify") {
+    name
+    id
+  }
+}
+
+mutation addLocation($organzationID: ID!) {
+  addLocation(name: "Econify HQ", address: "111 E 14th St #272, New York, NY 10003", organizationId: $organzationID) {
+    name
+    id
+    latitude
+    longitude
+  }
+}
+
+mutation addEvent($organzationID: ID!, $locationID: ID!) {
+  addEvent(name: "Annual Hackathon", organizationId: $organzationID, locationId: $locationID) {
+    name
+    id
+  }
+}
+
+mutation updateOrganization($organzationID: ID!) {
+  updateOrganization(id: $organzationID, name: "Skynet") {
+    name
+    id
+  }
+}
+
+mutation updateLocation($locationID: ID!) {
+  updateLocation(id: $locationID, name: "Econify HQ 2", address: "A place google can't find") {
+    name
+    id
+    address
+    latitude
+    longitude
+  }
+}
+
+mutation updateEvent($eventID: ID!) {
+  updateEvent(id: $eventID, name: "JavaScript Training Day") {
+    name
+    id
+  }
+}
+
+query getOrganizations {
+  organizations {
+    name
+    locations {
+      name
+      address
+    }
+    events {
+      name
+    }
+  }
+}
+
+query getLocations {
+  locations {
+    name
+    address
+    organization {
+      name
+    }
+    events {
+      name
+    }
+  }
+}
+
+query getEvents {
+  events {
+    name
+    organization {
+      name
+    }
+    location {
+      name
+      address
+    }
+  }
+}
+
+mutation deleteOrganization($organzationID: ID!) {
+  deleteOrganization(id: $organzationID) {
+    id
+  }
+}
+
+mutation deleteLocation($locationID: ID!) {
+  deleteLocation(id: $locationID) {
+    id
+  }
+}
+
+mutation deleteEvent($eventID: ID!) {
+  deleteEvent(id: $eventID) {
+    id
+  }
+}
