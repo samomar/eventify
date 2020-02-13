@@ -19,7 +19,7 @@ async function getCoordinates(address) {
   const response = await fetch(googleMapsURL);
   const data = await response.json();
 
-  !data.status == "OK" && stop("Unable to fetch address coordinates.");
+  data.status !== "OK" && stop("Unable to fetch address coordinates.");
 
   const { lat, lng } = data.results[0].geometry.location;
   return [lat, lng];
